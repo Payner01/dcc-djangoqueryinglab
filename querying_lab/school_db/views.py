@@ -1,5 +1,7 @@
+from itertools import count
 from django.shortcuts import render
 from .models import Student, Instructor, Course, StudentCourse
+from django.db.models import Count
 
 
 def index(request):
@@ -36,17 +38,24 @@ def problem_two(request):
     }
     return render(request, 'school/two.html', context)
 
+
+
+
 def problem_three(request):
     # Find all students who have a A+ in any class and are NOT getting a C+ in any class. 
     # Order the data by student's first name alphabetically.
 
     student_courses = StudentCourse.objects.filter(grade="A+")
-    high_achievers = student_courses.exclude(student__studentcourse__grade="C+")
+    high_achievers = student_courses.exclude(student__studentcourse__grade='C+')
+    high_achievers_list = high_achievers.values('student_id').annotate(student_id_count = Count('student_id')).filter(student_id_count__gt=1)
     data_visualization = [item for item in student_courses]
     context = {
-        'student_courses': high_achievers
+        'student_courses': high_achievers_list
     }
     return render(request, 'school/three.html', context)
+
+
+
 
 def problem_four(request):
     # Find all students who are taking the Programming class. 
