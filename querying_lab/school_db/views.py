@@ -58,12 +58,17 @@ def problem_four(request):
     }
     return render(request, 'school/four.html', context)
 
+
 def problem_five(request):
     # Find all students getting an A in the Programming class. 
     # Order by last name.
 
+
+    programming_class = StudentCourse.objects.filter(course_id="4")
+    high_grade = programming_class.filter(grade='A').order_by('student__last_name')
+    data_visualization = [item for item in programming_class]
     context = {
-        'student_courses': None
+        'student_courses': high_grade
     }
     return render(request, 'school/five.html', context)
 
