@@ -17,7 +17,7 @@ def index(request):
     return render(request, 'school/index.html', context)
 
 def problem_one(request):
-    students = Student.objects.filter(gpa__gt=3.0)
+    students = Student.objects.filter(gpa__gt=3.0).order_by('-gpa')
     # Find all students who have a GPA greater than 3.0. 
     # Order the data by highest GPAs first.
     data_visualization = [item for item in students]
@@ -29,9 +29,10 @@ def problem_one(request):
 def problem_two(request):
     # Find all instructors hired prior to 2010
     # Order by hire date
-
+    instructors = Instructor.objects.filter(hire_date__lt='2010-01-01').order_by('hire_date')
+    data_visualization = [item for item in instructors]
     context = {
-        'instructors': None
+        'instructors': instructors
     }
     return render(request, 'school/two.html', context)
 
