@@ -40,8 +40,11 @@ def problem_three(request):
     # Find all students who have a A+ in any class and are NOT getting a C+ in any class. 
     # Order the data by student's first name alphabetically.
 
+    student_courses = StudentCourse.objects.filter(grade="A+")
+    high_achievers = student_courses.exclude(student__studentcourse__grade="C+")
+    data_visualization = [item for item in student_courses]
     context = {
-        'student_courses': None
+        'student_courses': high_achievers
     }
     return render(request, 'school/three.html', context)
 
