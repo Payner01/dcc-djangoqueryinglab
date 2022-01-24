@@ -8,7 +8,7 @@
             "name": "Python: Django",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}\\querying_lab\\manage.py",
+            "program": "${workspaceFolder}//querying_lab//manage.py",
             "args": [
                 "runserver"
             ],
