@@ -51,9 +51,10 @@ def problem_three(request):
 def problem_four(request):
     # Find all students who are taking the Programming class. 
     # Order by their grade. 
-
+    programming_class = StudentCourse.objects.filter(course_id="4").order_by("grade")
+    data_visualization = [item for item in programming_class]
     context = {
-        'student_courses': None
+        'student_courses': programming_class
     }
     return render(request, 'school/four.html', context)
 
