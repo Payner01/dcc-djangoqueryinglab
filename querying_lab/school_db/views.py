@@ -1,7 +1,7 @@
 from itertools import count
 from django.shortcuts import render
 from .models import Student, Instructor, Course, StudentCourse
-from django.db.models import Count
+from django.db.models import Count, F
 
 
 def index(request):
@@ -46,11 +46,10 @@ def problem_three(request):
     # Order the data by student's first name alphabetically.
 
     student_courses = StudentCourse.objects.filter(grade="A+")
-    high_achievers = student_courses.exclude(student__studentcourse__grade='C+')
-    high_achievers_list = high_achievers.values('student_id').annotate(student_id_count = Count('student_id')).filter(student_id_count__gt=1)
-    data_visualization = [item for item in student_courses]
+    high_achievers = student_courses.exclude(student__studentcourse__grade='C+').order_by('student__first_name')
+    data_visualization = [item for item in high_achievers]
     context = {
-        'student_courses': high_achievers_list
+        'student_courses': high_achievers
     }
     return render(request, 'school/three.html', context)
 
